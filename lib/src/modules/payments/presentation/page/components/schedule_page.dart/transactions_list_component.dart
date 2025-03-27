@@ -1,13 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../../../core/base/constants/enum.dart';
+import '../../../../domain/domain.dart';
+import '../../../bloc/payments_bloc/payments_bloc.dart';
 
 class TransactionDetailCard extends StatelessWidget {
-  const TransactionDetailCard({super.key});
+  final PaymentsTransactionsEntity transaction;
+
+  const TransactionDetailCard({
+    Key? key,
+    required this.transaction,
+  }) : super(key: key);
+
+  String _formatDate(DateTime date) {
+    return DateFormat('dd/MM/yyyy').format(date);
+  }
+
+  String _formatCurrency(double value) {
+    return NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(value);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final visibleOptions = context.select(
+      (PaymentsBloc bloc) => bloc.state.visibleOptions,
+    );
+
+    final rows = <Widget>[];
+
+    if (visibleOptions.contains(TransactionDetailOption.processDate) &&
+        visibleOptions.contains(TransactionDetailOption.amount)) {
+      rows.add(_buildDetailRow(
+        'Process date',
+        _formatDate(transaction.processDate),
+        'Amount',
+        _formatCurrency(transaction.actualPaymentAmount),
+      ));
+    }
+
+    if (visibleOptions.contains(TransactionDetailOption.type) &&
+        visibleOptions.contains(TransactionDetailOption.principal)) {
+      rows.add(_buildDetailRow(
+        'Type',
+        transaction.paymentType,
+        'Principal',
+        _formatCurrency(transaction.actualPrincipalPaymentAmount),
+      ));
+    }
+
+    if (visibleOptions.contains(TransactionDetailOption.lateFee) &&
+        visibleOptions.contains(TransactionDetailOption.interest)) {
+      rows.add(_buildDetailRow(
+        'Late Fee',
+        transaction.actualFee > 0
+            ? _formatCurrency(transaction.actualFee)
+            : '--',
+        'Interest',
+        _formatCurrency(transaction.actualInterestPaymentAmount),
+      ));
+    }
+
+    if (visibleOptions.contains(TransactionDetailOption.principalBalance) &&
+        visibleOptions.contains(TransactionDetailOption.postDate)) {
+      rows.add(_buildDetailRow(
+        'Principal Balance',
+        _formatCurrency(transaction.outstandingPrincipalBalance),
+        'Post date',
+        _formatDate(transaction.actualPaymentPostDate),
+      ));
+    }
+
+    final children = rows
+        .expand((row) => [row, const SizedBox(height: 12)])
+        .toList();
+
+    if (children.isNotEmpty) {
+      children.removeLast(); // remove o último SizedBox extra apenas se existir
+    }
+
     return Container(
-      padding:  EdgeInsets.all(16),
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -22,23 +97,17 @@ class TransactionDetailCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildDetailRow('Process date', '02/11/2024', 'Amount', '\$181.12'),
-          const SizedBox(height: 12),
-          const SizedBox(height: 12),
-          _buildDetailRow('Type', 'Debit Card', 'Principal', '\$103.29'),
-          const SizedBox(height: 12),
-          const SizedBox(height: 12),
-          _buildDetailRow('Late Fee', '--', 'Interest', '\$77.83'),
-          const SizedBox(height: 12),
-          const SizedBox(height: 12),
-          _buildDetailRow('Principal Balance', '\$9,066.74', 'Post date', '02/11/2024'),
-        ],
+        children: children,
       ),
     );
   }
 
-  Widget _buildDetailRow(String leftLabel, String leftValue, String rightLabel, String rightValue) {
+  Widget _buildDetailRow(
+    String leftLabel,
+    String leftValue,
+    String rightLabel,
+    String rightValue,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

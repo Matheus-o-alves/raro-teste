@@ -36,17 +36,17 @@ class BuildFinancialCardComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              const Text(
-                '\$',
-                style: TextStyle(
-                  color: Color(0xFF37404E),
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Lato',
-                ),
-              ),
+              // const Text(
+              //   '\$ss',
+              //   style: TextStyle(
+              //     color: Color(0xFF37404E),
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.normal,
+              //     fontFamily: 'Lato',
+              //   ),
+              // ),
               Text(
-                amount,
+                '\$ ${amount}',
                 style: const TextStyle(
                   color: Color(0xFF37404E),
                   fontSize: 16,

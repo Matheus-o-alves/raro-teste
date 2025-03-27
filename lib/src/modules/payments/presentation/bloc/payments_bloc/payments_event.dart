@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../../core/base/constants/enum.dart';
+
 enum PaymentsTab { Payments, transactions }
 
 abstract class PaymentsEvent extends Equatable {
@@ -20,3 +22,13 @@ class PaymentsTabChanged extends PaymentsEvent {
 
 
 class LoadPaymentsEvent extends PaymentsEvent {}
+
+
+class UpdateTransactionDetailOptions extends PaymentsEvent {
+  final List<TransactionDetailOption> selectedOptions;
+
+  const UpdateTransactionDetailOptions(this.selectedOptions);
+
+  @override
+  List<Object> get props => [selectedOptions];
+}

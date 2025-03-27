@@ -28,5 +28,9 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         )),
       );
     });
+
+     on<UpdateTransactionDetailOptions>((event, emit) {
+    emit(state.copyWith(visibleOptions: event.selectedOptions));
+  });
   }
 }
