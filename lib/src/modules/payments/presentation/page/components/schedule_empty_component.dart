@@ -95,9 +95,9 @@ class PaymentsPage extends StatelessWidget {
                             ...info.transactions.map(
                               (transaction) => Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
-                                child: TransactionDetailCard(
-                                  transaction: transaction,
-                                ),
+                                child: 
+                                TransactionDetailCard(transaction: transaction)
+                               
                               ),
                             ),
                           ] else ...[

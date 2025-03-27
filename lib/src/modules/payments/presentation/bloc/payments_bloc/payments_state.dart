@@ -3,7 +3,6 @@ import 'package:base_project/src/modules/payments/domain/domain.dart';
 import '../../../../../core/base/constants/enum.dart';
 import 'payments_event.dart';
 
-
 enum PaymentsStatus { initial, loading, loaded, error }
 
 class PaymentsState extends Equatable {
@@ -18,13 +17,7 @@ class PaymentsState extends Equatable {
     this.status = PaymentsStatus.initial,
     this.paymentsInfo,
     this.errorMessage,
-    this.visibleOptions = const [
-      TransactionDetailOption.principal,
-      TransactionDetailOption.interest,
-      TransactionDetailOption.lateFee,
-      TransactionDetailOption.postDate,
-      TransactionDetailOption.principalBalance,
-    ],
+    this.visibleOptions = const [],
   });
 
   PaymentsState copyWith({
@@ -34,12 +27,17 @@ class PaymentsState extends Equatable {
     String? errorMessage,
     List<TransactionDetailOption>? visibleOptions,
   }) {
+    final updatedVisibleOptions = {
+      ...?visibleOptions ?? this.visibleOptions,
+      ...alwaysVisibleOptions, // força os fixos
+    }.toList();
+
     return PaymentsState(
       selectedTab: selectedTab ?? this.selectedTab,
       status: status ?? this.status,
       paymentsInfo: paymentsInfo ?? this.paymentsInfo,
       errorMessage: errorMessage ?? this.errorMessage,
-      visibleOptions: visibleOptions ?? this.visibleOptions,
+      visibleOptions: updatedVisibleOptions,
     );
   }
 
