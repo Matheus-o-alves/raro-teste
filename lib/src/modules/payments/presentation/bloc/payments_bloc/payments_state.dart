@@ -10,14 +10,16 @@ class PaymentsState extends Equatable {
   final PaymentsStatus status;
   final PaymentsInfoEntity? paymentsInfo;
   final String? errorMessage;
-  final List<TransactionDetailOption> visibleOptions;
+  final List<String> activeTransactionFilterKeys;
+  final List<PaymentsTransactionFilterEntity> transactionFilter;
 
   const PaymentsState({
     required this.selectedTab,
     this.status = PaymentsStatus.initial,
     this.paymentsInfo,
     this.errorMessage,
-    this.visibleOptions = const [],
+    this.activeTransactionFilterKeys = const [],
+    this.transactionFilter = const [],
   });
 
   PaymentsState copyWith({
@@ -25,23 +27,27 @@ class PaymentsState extends Equatable {
     PaymentsStatus? status,
     PaymentsInfoEntity? paymentsInfo,
     String? errorMessage,
-    List<TransactionDetailOption>? visibleOptions,
+    List<String>? activeTransactionFilterKeys,
+    List<PaymentsTransactionFilterEntity>? transactionFilter,
   }) {
-    final updatedVisibleOptions = {
-      ...?visibleOptions ?? this.visibleOptions,
-      ...alwaysVisibleOptions, // força os fixos
-    }.toList();
-
     return PaymentsState(
       selectedTab: selectedTab ?? this.selectedTab,
       status: status ?? this.status,
       paymentsInfo: paymentsInfo ?? this.paymentsInfo,
       errorMessage: errorMessage ?? this.errorMessage,
-      visibleOptions: updatedVisibleOptions,
+      activeTransactionFilterKeys:
+          activeTransactionFilterKeys ?? this.activeTransactionFilterKeys,
+      transactionFilter: transactionFilter ?? this.transactionFilter,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [selectedTab, status, paymentsInfo, errorMessage, visibleOptions];
+  List<Object?> get props => [
+        selectedTab,
+        status,
+        paymentsInfo,
+        errorMessage,
+        activeTransactionFilterKeys,
+        transactionFilter,
+      ];
 }

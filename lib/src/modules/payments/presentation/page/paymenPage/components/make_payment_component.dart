@@ -23,7 +23,6 @@ class MakePaymentComponent extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // Coloque sua lógica aqui
             },
             child: const Text(
               'Click here',

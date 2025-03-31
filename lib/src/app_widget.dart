@@ -1,5 +1,5 @@
 import 'package:base_project/src/modules/payments/presentation/bloc/payments_bloc/payments_bloc.dart';
-import 'package:base_project/src/modules/payments/presentation/page/components/schedule_empty_component.dart';
+import 'package:base_project/src/modules/payments/presentation/page/paymenPage/components/schedule_empty_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocProvider;
@@ -9,7 +9,7 @@ import 'modules/payments/data/data.dart';
 import 'modules/payments/domain/usecase/usecase.dart';
 import 'modules/payments/infra/datasource/datasource.dart';
 import 'modules/payments/presentation/bloc/payments_bloc/payments_event.dart';
-import 'modules/payments/presentation/page/components/appBar_component.dart' show DefaultAppBar;
+import 'modules/payments/presentation/page/paymenPage/components/appBar_component.dart' show DefaultAppBar;
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});

@@ -21,11 +21,11 @@ class PaymentsTabChanged extends PaymentsEvent {
 
 class LoadPaymentsEvent extends PaymentsEvent {}
 
-class UpdateTransactionDetailOptions extends PaymentsEvent {
-  final List<TransactionDetailOption> selectedOptions;
+class UpdateTransactionFilterKeys extends PaymentsEvent {
+  final List<String> selectedKeys;
 
-  const UpdateTransactionDetailOptions(this.selectedOptions);
+  const UpdateTransactionFilterKeys(this.selectedKeys);
 
   @override
-  List<Object> get props => [selectedOptions];
+  List<Object> get props => [selectedKeys];
 }

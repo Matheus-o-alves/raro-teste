@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/theme/app_style.dart';
 
 class BuildFinancialCardComponent extends StatelessWidget {
   const BuildFinancialCardComponent({
@@ -16,7 +17,7 @@ class BuildFinancialCardComponent extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       constraints: const BoxConstraints(minWidth: 144),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -24,34 +25,31 @@ class BuildFinancialCardComponent extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF5E646E),
-              fontSize: 12,
-              letterSpacing: 0.1,
-              fontFamily: 'Lato',
-            ),
+            style: AppTextStyles.cardTitle,
           ),
           const SizedBox(height: 4),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              // const Text(
-              //   '\$ss',
-              //   style: TextStyle(
-              //     color: Color(0xFF37404E),
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.normal,
-              //     fontFamily: 'Lato',
-              //   ),
-              // ),
-              Text(
-                '\$ ${amount}',
-                style: const TextStyle(
-                  color: Color(0xFF37404E),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+              Text.rich(
+                TextSpan(
+                  children: [
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.top,
+                      child: Transform.translate(
+                        offset: const Offset(0, -2),
+                        child: Text(
+                          '\$',
+                          style: AppTextStyles.currencySymbol,
+                        ),
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' $amount',
+                      style: AppTextStyles.amount,
+                    ),
+                  ],
                 ),
               ),
             ],

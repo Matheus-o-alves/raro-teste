@@ -8,20 +8,13 @@ import 'payments_event.dart';
 import 'payments_state.dart';
 import 'package:base_project/src/modules/payments/domain/domain.dart';
 
-// Suponha que no seu arquivo de enums você tenha definido:
-// enum TransactionDetailOption { processDate, amount, type, principal, lateFee, interest, principalBalance, postDate }
-// E também:
-const List<TransactionDetailOption> alwaysVisibleOptions = [
-  TransactionDetailOption.processDate,
-  TransactionDetailOption.amount,
-  TransactionDetailOption.type,
-];
-
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   final GetPaymentsUseCase getPaymentsUseCase;
 
   PaymentsBloc(this.getPaymentsUseCase)
-      : super(const PaymentsState(selectedTab: PaymentsTab.Payments)) {
+      : super(const PaymentsState(
+          selectedTab: PaymentsTab.Payments,
+        )) {
     on<PaymentsTabChanged>((event, emit) {
       emit(state.copyWith(selectedTab: event.tab));
     });
@@ -38,34 +31,38 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         (paymentsInfo) => emit(state.copyWith(
           status: PaymentsStatus.loaded,
           paymentsInfo: paymentsInfo,
+          transactionFilter: paymentsInfo.transactionFilter,
+          activeTransactionFilterKeys: paymentsInfo.transactionFilter
+              .where((f) => f.isDefault)
+              .map((f) => f.key)
+              .toList(),
         )),
       );
     });
 
-    on<UpdateTransactionDetailOptions>((event, emit) {
-      // Garante que os fixos sempre estarão
-      final filtered = {
-        ...event.selectedOptions,
-        ...alwaysVisibleOptions,
-      }.toList();
-      emit(state.copyWith(visibleOptions: filtered));
+    on<UpdateTransactionFilterKeys>((event, emit) {
+      emit(state.copyWith(activeTransactionFilterKeys: event.selectedKeys));
     });
   }
 
-// payments_bloc.dart (trecho relevante)
-List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transaction) {
-  final effectiveOptions = {
-    ...state.visibleOptions,
-    ...alwaysVisibleOptions,
-  };
+  List<PaymentsTransactionsEntity> getFilteredTransactions() {
+    final all = state.paymentsInfo?.transactions ?? [];
+    final filters = state.activeTransactionFilterKeys;
+    return all.where((tx) => filters.contains(tx.paymentType)).toList();
+  }
+
+ List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transaction) {
+  final effectiveOptions = state.activeTransactionFilterKeys;
 
   String formatDate(DateTime date) => DateFormat('dd/MM/yyyy').format(date);
-  String formatCurrency(double value) => NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(value);
+  String formatCurrency(double value) =>
+      NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(value);
 
   List<DetailRowData> rows = [];
 
-  final showProcessDate = effectiveOptions.contains(TransactionDetailOption.processDate);
-  final showAmount = effectiveOptions.contains(TransactionDetailOption.amount);
+  // Ajustado para usar as chaves conforme o mock
+  final showProcessDate = effectiveOptions.contains("processDate");
+  final showAmount = effectiveOptions.contains("actualPaymentAmount");
   if (showProcessDate || showAmount) {
     rows.add(DetailRowData(
       leftLabel: showProcessDate ? 'Process date' : '',
@@ -75,8 +72,8 @@ List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transact
     ));
   }
 
-  final showType = effectiveOptions.contains(TransactionDetailOption.type);
-  final showPrincipal = effectiveOptions.contains(TransactionDetailOption.principal);
+  final showType = effectiveOptions.contains("type");
+  final showPrincipal = effectiveOptions.contains("actualPrincipalPaymentAmount");
   if (showType || showPrincipal) {
     rows.add(DetailRowData(
       leftLabel: showType ? 'Type' : '',
@@ -86,8 +83,8 @@ List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transact
     ));
   }
 
-  final showLateFee = effectiveOptions.contains(TransactionDetailOption.lateFee);
-  final showInterest = effectiveOptions.contains(TransactionDetailOption.interest);
+  final showLateFee = effectiveOptions.contains("actualFee");
+  final showInterest = effectiveOptions.contains("actualInterestPaymentAmount");
   if (showLateFee || showInterest) {
     rows.add(DetailRowData(
       leftLabel: showLateFee ? 'Late Fee' : '',
@@ -97,8 +94,8 @@ List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transact
     ));
   }
 
-  final showPrincipalBalance = effectiveOptions.contains(TransactionDetailOption.principalBalance);
-  final showPostDate = effectiveOptions.contains(TransactionDetailOption.postDate);
+  final showPrincipalBalance = effectiveOptions.contains("outstandingPrincipalBalance");
+  final showPostDate = effectiveOptions.contains("actualPaymentPostDate");
   if (showPrincipalBalance || showPostDate) {
     rows.add(DetailRowData(
       leftLabel: showPrincipalBalance ? 'Principal Balance' : '',
@@ -110,4 +107,5 @@ List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transact
 
   return rows;
 }
+
 }
