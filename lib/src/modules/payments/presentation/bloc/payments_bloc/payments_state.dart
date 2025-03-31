@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:base_project/src/modules/payments/domain/domain.dart';
-import '../../../../../core/base/constants/enum.dart';
 import 'payments_event.dart';
 
-enum PaymentsStatus { initial, loading, loaded, error }
 
+// Single Responsibility: State container for the payments feature
 class PaymentsState extends Equatable {
   final PaymentsTab selectedTab;
   final PaymentsStatus status;
@@ -13,6 +12,7 @@ class PaymentsState extends Equatable {
   final List<String> activeTransactionFilterKeys;
   final List<PaymentsTransactionFilterEntity> transactionFilter;
 
+  // Constructor with default values to reduce required parameters
   const PaymentsState({
     required this.selectedTab,
     this.status = PaymentsStatus.initial,
@@ -22,6 +22,7 @@ class PaymentsState extends Equatable {
     this.transactionFilter = const [],
   });
 
+  // Immutability: Create new instances instead of modifying existing ones
   PaymentsState copyWith({
     PaymentsTab? selectedTab,
     PaymentsStatus? status,
@@ -41,6 +42,7 @@ class PaymentsState extends Equatable {
     );
   }
 
+  // For equality checking without comparing object references
   @override
   List<Object?> get props => [
         selectedTab,
@@ -51,3 +53,6 @@ class PaymentsState extends Equatable {
         transactionFilter,
       ];
 }
+
+// payments_formatter.dart
+// Single Responsibility: Handles formatting of different data types

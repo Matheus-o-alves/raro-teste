@@ -1,23 +1,13 @@
+// PaymentsPage.dart
 import 'package:base_project/src/modules/payments/domain/entity/payments_summary_entity.dart';
+import 'package:base_project/src/modules/payments/presentation/page/paymenPage/components/shimmer/shimmet_transactions_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/theme/app_style.dart' show AppColors, AppTextStyles;
 import '../../../bloc/payments_bloc/payments_bloc.dart';
 import '../../../bloc/payments_bloc/payments_event.dart';
 import '../../../bloc/payments_bloc/payments_state.dart';
-import 'build_financial_card_component.dart';
-import 'make_payment_component.dart';
-import 'payment_scheduled_list_component.dart';
-import 'schedule_page.dart/transactions_list_component.dart';
-import 'shimmer/paymente_scheduled_shimmer_component.dart';
-import 'shimmer/shimmer_schedule_component.dart';
-import 'transaction_filter_bottom_sheet.dart'; // Componente PaymentScheduleDashboard
-import 'package:base_project/src/modules/payments/domain/entity/payments_summary_entity.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../bloc/payments_bloc/payments_bloc.dart';
-import '../../../bloc/payments_bloc/payments_event.dart';
-import '../../../bloc/payments_bloc/payments_state.dart';
+
 import 'build_financial_card_component.dart';
 import 'make_payment_component.dart';
 import 'payment_scheduled_list_component.dart';
@@ -45,7 +35,7 @@ class PaymentsPage extends StatelessWidget {
                 child: BlocBuilder<PaymentsBloc, PaymentsState>(
                   builder: (context, state) {
                     final isPayments =
-                        state.selectedTab == PaymentsTab.Payments;
+                        state.selectedTab == PaymentsTab.payments;
 
                     if (state.status == PaymentsStatus.loading) {
                       return Column(
@@ -64,7 +54,7 @@ class PaymentsPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          ShimmerScheduleComponent(),
+                       state.selectedTab==PaymentsTab.payments?  ShimmerScheduleComponent() : TransactionDetailCardShimmer(),
                         ],
                       );
                     }
@@ -150,7 +140,7 @@ class PaymentsPage extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               context.read<PaymentsBloc>().add(
-                const PaymentsTabChanged(PaymentsTab.Payments),
+                const PaymentsTabChanged(PaymentsTab.payments),
               );
             },
             child: Container(
@@ -197,20 +187,19 @@ class PaymentsPage extends StatelessWidget {
           ),
         ),
         IconButton(
-  icon: Icon(
-    Icons.more_vert,
-    color: AppColors.softGrey.withOpacity(0.75),
-  ),
-  onPressed: () {
-    final state = context.read<PaymentsBloc>().state;
-    showTransactionFilterBottomSheet(
-      context,
-      state.paymentsInfo?.transactionFilter ?? [],
-      state.activeTransactionFilterKeys,
-    );
-  },
-),
-
+          icon: Icon(
+            Icons.more_vert,
+            color: AppColors.softGrey.withOpacity(0.75),
+          ),
+          onPressed: () {
+            final state = context.read<PaymentsBloc>().state;
+            showTransactionFilterBottomSheet(
+              context,
+              state.paymentsInfo?.transactionFilter ?? [],
+              state.activeTransactionFilterKeys,
+            );
+          },
+        ),
       ],
     );
   }

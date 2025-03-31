@@ -26,4 +26,6 @@ class ConverterHelper {
     final String formattedValue = isWholeNumber ? value.toInt().toString() : value.toStringAsFixed(2);
     return '\$$formattedValue';
   }
+
+  
 }
