@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - data/model/payments/lib/src/modules/payments/data/model/payments/payments_transactions_model.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../../../../../../index.html">top level</a> - <a href="index.html">data/model/payments/lib/src/modules/payments/data/model/payments</a> - payments_transactions_model.dart<span style="font-size: 80%;"> (source / <a href="payments_transactions_model.dart.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-03-31 22:14:58</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:base_project/src/core/core.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:base_project/src/modules/payments/domain/domain.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : class PaymentsTransactionsModel extends PaymentsTransactionsEntity {</span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC tlaBgUNC">           0 :   const PaymentsTransactionsModel({</span></span>
+<span id="L6"><span class="lineNum">       6</span>              :     required super.key,</span>
+<span id="L7"><span class="lineNum">       7</span>              :     required super.actualPaymentPostDate,</span>
+<span id="L8"><span class="lineNum">       8</span>              :     required super.processDate,</span>
+<span id="L9"><span class="lineNum">       9</span>              :     required super.actualPaymentAmount,</span>
+<span id="L10"><span class="lineNum">      10</span>              :     required super.actualPrincipalPaymentAmount,</span>
+<span id="L11"><span class="lineNum">      11</span>              :     required super.actualInterestPaymentAmount,</span>
+<span id="L12"><span class="lineNum">      12</span>              :     required super.outstandingPrincipalBalance,</span>
+<span id="L13"><span class="lineNum">      13</span>              :     required super.outstandingLoanBalance,</span>
+<span id="L14"><span class="lineNum">      14</span>              :     required super.actualFee,</span>
+<span id="L15"><span class="lineNum">      15</span>              :     required super.paymentType,</span>
+<span id="L16"><span class="lineNum">      16</span>              :   });</span>
+<span id="L17"><span class="lineNum">      17</span>              : </span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   factory PaymentsTransactionsModel.fromJson(Map&lt;String, dynamic&gt; map) {</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     return PaymentsTransactionsModel(</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :       key: map['key'] ?? &quot;&quot;,</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :       actualPaymentPostDate: DateTime.parse(map['actualPaymentPostDate']),</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :       processDate: DateTime.parse(map['processDate']),</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :       actualPaymentAmount: ConverterHelper.dynamicToDouble(map['actualPaymentAmount'] ?? 0.0),</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :       actualPrincipalPaymentAmount: ConverterHelper.dynamicToDouble(map['actualPrincipalPaymentAmount'] ?? 0.0),</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :       actualInterestPaymentAmount: ConverterHelper.dynamicToDouble(map['actualInterestPaymentAmount'] ?? 0.0),</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :       outstandingPrincipalBalance: ConverterHelper.dynamicToDouble(map['outstandingPrincipalBalance'] ?? 0.0),</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :       outstandingLoanBalance: ConverterHelper.dynamicToDouble(map['outstandingLoanBalance'] ?? 0.0),</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :       actualFee: ConverterHelper.dynamicToDouble(map['actualFee'] ?? 0.0),</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :       paymentType: map['paymentType'] ?? &quot;&quot;,</span></span>
+<span id="L30"><span class="lineNum">      30</span>              :     );</span>
+<span id="L31"><span class="lineNum">      31</span>              :   }</span>
+<span id="L32"><span class="lineNum">      32</span>              : </span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L34"><span class="lineNum">      34</span>              :   Map&lt;String, dynamic&gt; toMap() {</span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     return {</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :       'key': key,</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :       'actualPaymentPostDate': ConverterHelper.stringNullableToMMDDYYYY(actualPaymentPostDate.toIso8601String()),</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :       'processDate': ConverterHelper.stringNullableToMMDDYYYY(processDate.toIso8601String()),</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :       'actualPaymentAmount': ConverterHelper.currencyFormatter(actualPaymentAmount, &quot;--&quot;),</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :       'actualPrincipalPaymentAmount': ConverterHelper.currencyFormatter(actualPrincipalPaymentAmount, &quot;--&quot;),</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :       'actualInterestPaymentAmount': ConverterHelper.currencyFormatter(actualInterestPaymentAmount, &quot;--&quot;),</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :       'outstandingPrincipalBalance': ConverterHelper.currencyFormatter(outstandingPrincipalBalance, &quot;--&quot;),</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :       'outstandingLoanBalance': ConverterHelper.currencyFormatter(outstandingLoanBalance, &quot;--&quot;),</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :       'actualFee': ConverterHelper.currencyFormatter(actualFee, &quot;--&quot;),</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :       'type': paymentType,</span></span>
+<span id="L46"><span class="lineNum">      46</span>              :     };</span>
+<span id="L47"><span class="lineNum">      47</span>              :   }</span>
+<span id="L48"><span class="lineNum">      48</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

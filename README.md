@@ -1,73 +1,133 @@
-# Teste Técnico - Desenvolvedor Flutter
+# Projeto de Testes do Módulo de Pagamentos
 
-## Objetivo
-O objetivo deste teste técnico é avaliar suas habilidades no desenvolvimento de interfaces em Flutter, seguindo boas práticas de código, organização do projeto e implementação de testes. Você deverá dar sequência à base do projeto fornecido, reproduzindo a tela conforme o protótipo no [Figma](https://www.figma.com/design/QWC5IksyTx2k65ZzkPz3r1/Processo-seletivo---Dev-flutter?node-id=1-4313&t=WNNCW8T4MMI6Z9M8-1).
+Este repositório contém o teste técnico proposto pelo Raro Labs
 
-***Alguns packages já foram incluídos no projeto, fique a vontade para substitui-los, propor melhorias na arquitetura atual.***
+## Estrutura do Projeto
 
-## Requisitos
-- Implementar uma tela onde o usuário poderá visualizar uma **lista de informações** sobre **transactions** e **schedules**.
-- Implementar um **BottomSheet** que permitirá ocultar ou exibir dados sobre os itens do **schedule**.
-- Seguir as diretrizes do **protótipo no Figma**.
-- Escrever **testes unitários** e **testes de widget**.
-- Utilizar o BLoC como gerenciamento de estado.
-- Comportamentos esperados para a tela:
-  - Em estado de loading os widgets devem exibir um shimmer no lugar dos dados;
-  - A tela deve ter um scroll único de forma geral, não sendo permitido a existência de scrolls aninhados;
+```
+lib/
+├── src/
+│   ├── core/
+│   │   ├── base/
+│   │   ├── error/
+│   │   └── utils/
+│   └── modules/
+│       └── payments/
+│           ├── data/
+│           │   ├── datasource/
+│           │   └── repository/
+│           ├── domain/
+│           │   ├── entity/
+│           │   ├── repository/
+│           │   └── usecase/
+│           └── presentation/
+│               ├── bloc/
+│               └── page/
+test/
+├── src/
+│   └── modules/
+│       └── payments/
+│           ├── data/
+│           ├── domain/
+│           └── presentation/
+│               ├── bloc/
+│               └── page/
+│           ├── mock/
+│
 
-## Boas Práticas
-Para garantir um código bem estruturado e manutenível, siga as seguintes diretrizes:
+## Pré-requisitos
 
-- **Responsividade:** Certifique-se de que a tela funcione corretamente em diferentes tamanhos de dispositivos.
-- **Componentização:** Separe os widgets reutilizáveis para facilitar a organização do código.
-- **Acessibilidade:** Considere a acessibilidade ao desenvolver os componentes visuais.
-- **Manutenção:** Nomeie variáveis, métodos e classes de forma clara e significativa.
-- **Tratamento de Erros:** Implemente tratamento de erros para melhorar a experiência do usuário.
-- **Seguir a Arquitetura do Projeto:** Mantenha o código organizado e dentro da estrutura já existente no projeto base.
+- Flutter (versão 3.29.0, ou superior)
+- Dart (versão 3.0.0 ou superior)
+- IDE: Android Studio, VS Code ou outra IDE compatível com Flutter
 
-## Testes
-- É **obrigatório** implementar **testes unitários** para as regras de negócio, validações e/ou camadas que julgar necessário.
-- **Opcional:** Implementação de **testes de integração** para garantir a funcionalidade correta da interface e interação do usuário.
+## Como Configurar o Projeto
 
-## Entrega
-1. Faça um fork ou clone do repositório base fornecido.
-2. Desenvolva as funcionalidades seguindo os requisitos.
-3. Submeta o código em um repositório público ou envie um link para o repositório privado.
+1. Clone o repositório:
+   git clone https://github.com/Matheus-o-alves/raro-teste.git
+   cd raro-teste
+   ```
 
-Boa sorte! 🚀
+2. Instale as dependências:
+   flutter pub get
+   ```
 
-## Informações adicionais
-- Versão do Flutter utilizado para criação do projeto base: 3.29.0;
-- As telas do Figma estão em protótipo, então é possível navegar para entender melhor o comportamento das telas;
-- Estrutura base do Projeto
-  ```
-  lib/
-  └── src/
-      ├── core/
-      │   ├── base/
-      │   │   ├── constants/           # Constantes globais do projeto
-      │   │   ├── errors/              # Definições de erros e exceções
-      │   │   ├── interfaces/          # Interfaces para abstração
-      │   │   ├── base.dart
-      │   ├── utils/                   # Funções auxiliares e extensões
-      │   ├── core.dart                 # Arquivo principal do core
-      ├── modules/
-      │   ├── payments/                 # Módulo de pagamentos
-      │   │   ├── data/                 # Camada de dados
-      │   │   │   ├── datasource/
-      │   │   │   ├── model/
-      │   │   │   ├── repository/
-      │   │   ├── domain/               # Camada de domínio
-      │   │   │   ├── entity/
-      │   │   │   ├── repository/
-      │   │   │   ├── usecase/
-      │   │   ├── infra/                # Infraestrutura
-      │   │   │   ├── datasource/
-      │   │   │   ├── mock/
-      │   │   ├── presentation/         # Camada de apresentação
-      │   │   │   ├── bloc/
-      │   │   │   ├── page/
-      ├── app_widget.dart               # Widget principal do app
-      ├── main.dart                      # Ponto de entrada do app
-  test/                                  # Testes unitários
-  ```
+3. Gere os arquivos de mock necessários para os testes:
+   flutter pub run build_runner build --delete-conflicting-outputs
+   ```
+
+## Como Executar os Testes
+
+### Executar Todos os Testes
+
+
+flutter test
+```
+
+### Executar Testes Específicos
+
+
+# Executar testes do módulo de pagamentos
+flutter test test/src/modules/payments/
+
+# Executar testes do BLoC de pagamentos
+flutter test test/src/modules/payments/presentation/bloc/payments_bloc_test.dart
+
+# Executar testes do repositório de pagamentos
+flutter test test/src/modules/payments/data/repository/payments_repository_impl_test.dart
+```
+
+### Executar Testes com Cobertura
+
+
+flutter test --coverage
+```
+
+Para visualizar o relatório de cobertura em HTML (requer o pacote `lcov`):
+
+
+genhtml coverage/lcov.info -o coverage/html
+```
+
+Depois, abra `coverage/html/index.html` no seu navegador.
+
+## Implementações Testadas
+
+O projeto contém testes unitários para:
+
+1. **PaymentsState**: Testes para a classe que mantém o estado do BLoC.
+2. **PaymentsEvent**: Testes para os eventos que podem ser disparados no BLoC.
+3. **PaymentsBloc**: Testes para o BLoC que gerencia o estado da tela de pagamentos.
+4. **DetailRowBuilder**: Testes para a classe que constrói as linhas de detalhes das transações.
+5. **PaymentsRepositoryImpl**: Testes para a implementação do repositório que acessa os dados.
+
+## Arquitetura
+
+O projeto segue os princípios de Clean Architecture:
+
+- **Camada de Domínio**: Contém entidades, interfaces de repositório e casos de uso.
+- **Camada de Dados**: Contém implementações de repositório e fontes de dados.
+- **Camada de Apresentação**: Contém BLoCs e componentes de UI.
+
+## Tratamento de Erros
+
+O projeto implementa um tratamento de erros robusto:
+
+- Uso do tipo `Either` da biblioteca dartz para representar sucesso ou falha.
+- Classes de falha bem definidas para diferentes tipos de erro.
+- Tratamento adequado de exceções em cada camada.
+
+## Melhores Práticas Implementadas
+
+- **Testes Isolados**: Cada teste é independente e não afeta outros testes.
+- **Mocks**: Uso de mocks para simular dependências externas.
+- **Testes de Limite**: Testes para cenários de sucesso e falha.
+- **Organização**: Testes agrupados de forma lógica.
+- **Legibilidade**: Nomes de testes descritivos e bem organizados.
+
+
+5. Abra um Pull Request
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
