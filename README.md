@@ -1,6 +1,6 @@
 # Projeto de Testes do Módulo de Pagamentos
 
-Este repositório contém o teste técnico proposto pelo Raro Labs
+Este repositório contém o teste técnico proposto pelo Raro Labs.
 
 ## Estrutura do Projeto
 
@@ -33,7 +33,7 @@ test/
 │               ├── bloc/
 │               └── page/
 │           ├── mock/
-│
+```
 
 ## Pré-requisitos
 
@@ -44,15 +44,18 @@ test/
 ## Como Configurar o Projeto
 
 1. Clone o repositório:
+   ```bash
    git clone https://github.com/Matheus-o-alves/raro-teste.git
    cd raro-teste
    ```
 
 2. Instale as dependências:
+   ```bash
    flutter pub get
    ```
 
 3. Gere os arquivos de mock necessários para os testes:
+   ```bash
    flutter pub run build_runner build --delete-conflicting-outputs
    ```
 
@@ -60,13 +63,13 @@ test/
 
 ### Executar Todos os Testes
 
-
+```bash
 flutter test
 ```
 
 ### Executar Testes Específicos
 
-
+```bash
 # Executar testes do módulo de pagamentos
 flutter test test/src/modules/payments/
 
@@ -79,13 +82,13 @@ flutter test test/src/modules/payments/data/repository/payments_repository_impl_
 
 ### Executar Testes com Cobertura
 
-
+```bash
 flutter test --coverage
 ```
 
 Para visualizar o relatório de cobertura em HTML (requer o pacote `lcov`):
 
-
+```bash
 genhtml coverage/lcov.info -o coverage/html
 ```
 
@@ -124,9 +127,6 @@ O projeto implementa um tratamento de erros robusto:
 - **Testes de Limite**: Testes para cenários de sucesso e falha.
 - **Organização**: Testes agrupados de forma lógica.
 - **Legibilidade**: Nomes de testes descritivos e bem organizados.
-
-
-5. Abra um Pull Request
 
 ## Licença
 
