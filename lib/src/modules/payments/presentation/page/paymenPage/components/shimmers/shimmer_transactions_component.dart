@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionDetailCardShimmer extends StatelessWidget {
-  const TransactionDetailCardShimmer({Key? key}) : super(key: key);
+  const TransactionDetailCardShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

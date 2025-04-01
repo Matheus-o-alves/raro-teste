@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/theme/app_style.dart';
+import '../../../../../../core/theme/theme.dart';
 
 class BuildFinancialCardComponent extends StatelessWidget {
   const BuildFinancialCardComponent({

@@ -1,7 +1,6 @@
-// payments_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dartz/dartz.dart';
 
+import 'package:base_project/src/core/core.dart';
 import 'package:base_project/src/modules/payments/domain/domain.dart';
 import 'package:base_project/src/modules/payments/domain/entity/detail_row_entity.dart';
 
@@ -10,7 +9,6 @@ import 'payments_state.dart';
 
 import 'detail_row_builder.dart';
 
-// Single Responsibility: Handles business logic for payments
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   final GetPaymentsUseCase getPaymentsUseCase;
 
@@ -18,55 +16,106 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
       : super(const PaymentsState(
           selectedTab: PaymentsTab.payments,
         )) {
-    // Register event handlers
     on<PaymentsTabChanged>(_onTabChanged);
     on<LoadPaymentsEvent>(_onLoadPayments);
     on<UpdateTransactionFilterKeys>(_onUpdateFilterKeys);
   }
 
-  // Dependency Inversion: Uses abstract interfaces instead of concrete implementations
   void _onTabChanged(PaymentsTabChanged event, Emitter<PaymentsState> emit) {
-    emit(state.copyWith(selectedTab: event.tab));
+    try {
+      emit(state.copyWith(selectedTab: event.tab));
+    } catch (e) {
+      _handleError(e, emit);
+    }
   }
 
-  // Single Responsibility: Each method handles one specific event
   Future<void> _onLoadPayments(LoadPaymentsEvent event, Emitter<PaymentsState> emit) async {
-    emit(state.copyWith(status: PaymentsStatus.loading));
+    try {
+      emit(state.copyWith(
+        status: PaymentsStatus.loading,
+        errorMessage: null,
+      ));
 
-    final result = await getPaymentsUseCase();
-    result.fold(
-      (failure) => emit(state.copyWith(
-        status: PaymentsStatus.error,
-        errorMessage: failure.message,
-      )),
-      (paymentsInfo) => emit(state.copyWith(
-        status: PaymentsStatus.loaded,
-        paymentsInfo: paymentsInfo,
-        transactionFilter: paymentsInfo.transactionFilter,
-        activeTransactionFilterKeys: paymentsInfo.transactionFilter
-            .where((f) => f.isDefault)
-            .map((f) => f.key)
-            .toList(),
-      )),
-    );
+      final result = await getPaymentsUseCase();
+      
+      result.fold(
+        (failure) => _handleFailure(failure, emit),
+        (paymentsInfo) => _handleSuccess(paymentsInfo, emit),
+      );
+    } catch (e) {
+      _handleError(e, emit);
+    }
   }
 
   void _onUpdateFilterKeys(UpdateTransactionFilterKeys event, Emitter<PaymentsState> emit) {
-    emit(state.copyWith(activeTransactionFilterKeys: event.selectedKeys));
+    try {
+      emit(state.copyWith(activeTransactionFilterKeys: event.selectedKeys));
+    } catch (e) {
+      _handleError(e, emit);
+    }
   }
 
-  // Public API methods for UI components
-  
-  // Gets filtered transactions based on active filter keys
+  void _handleSuccess(PaymentsInfoEntity paymentsInfo, Emitter<PaymentsState> emit) {
+    try {
+      final activeFilterKeys = paymentsInfo.transactionFilter
+          .where((f) => f.isDefault)
+          .map((f) => f.key)
+          .toList();
+          
+      emit(state.copyWith(
+        status: PaymentsStatus.loaded,
+        paymentsInfo: paymentsInfo,
+        transactionFilter: paymentsInfo.transactionFilter,
+        activeTransactionFilterKeys: activeFilterKeys,
+        errorMessage: null, 
+      ));
+    } catch (e) {
+      _handleError(e, emit);
+    }
+  }
+
+  void _handleFailure(Failure failure, Emitter<PaymentsState> emit) {
+    emit(state.copyWith(
+      status: PaymentsStatus.error,
+      errorMessage: failure.message,
+    ));
+    
+
+  }
+
+  void _handleError(dynamic error, Emitter<PaymentsState> emit) {
+    final failure = error is Failure 
+        ? error 
+        : GenericFailure(error: error);
+    
+    emit(state.copyWith(
+      status: PaymentsStatus.error,
+      errorMessage: failure.message,
+    ));
+    
+
+  }
+
   List<PaymentsTransactionsEntity> getFilteredTransactions() {
-    final all = state.paymentsInfo?.transactions ?? [];
-    final filters = state.activeTransactionFilterKeys;
-    return all.where((tx) => filters.contains(tx.paymentType)).toList();
+    try {
+      final all = state.paymentsInfo?.transactions ?? [];
+      final filters = state.activeTransactionFilterKeys;
+      return all.where((tx) => filters.contains(tx.paymentType)).toList();
+    } catch (e) {
+      return [];
+      
+   
+    }
   }
 
-  // Uses DetailRowBuilder to build transaction detail rows
   List<DetailRowData> getTransactionDetailRows(PaymentsTransactionsEntity transaction) {
-    final detailRowBuilder = DetailRowBuilder(state.activeTransactionFilterKeys);
-    return detailRowBuilder.buildRows(transaction);
+    try {
+      final detailRowBuilder = DetailRowBuilder(state.activeTransactionFilterKeys);
+      return detailRowBuilder.buildRows(transaction);
+    } catch (e) {
+      return [];
+      
+     
+    }
   }
 }

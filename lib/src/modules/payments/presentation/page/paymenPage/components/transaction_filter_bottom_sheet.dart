@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/domain.dart';
-import '../../../bloc/payments_bloc/payments_bloc.dart';
-import '../../../bloc/payments_bloc/payments_event.dart';
+import '../../presentation.dart';
+
 
 Future<void> showTransactionFilterBottomSheet(
   BuildContext context,
@@ -10,7 +10,7 @@ Future<void> showTransactionFilterBottomSheet(
   List<String> selectedKeys,
 ) async {
   final bloc = context.read<PaymentsBloc>();
-  final selected = [...selectedKeys]; // cópia mutável
+  final selected = [...selectedKeys]; 
 
   await showModalBottomSheet(
     backgroundColor: Colors.transparent,
@@ -35,7 +35,6 @@ Future<void> showTransactionFilterBottomSheet(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Cabeçalho
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
@@ -71,7 +70,6 @@ Future<void> showTransactionFilterBottomSheet(
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // Lista de filtros com checkbox
                     ...transactionFilters.map((filter) {
                       final isFixed = filter.isDefault;
                       final isChecked = selected.contains(filter.key);
@@ -103,6 +101,7 @@ Future<void> showTransactionFilterBottomSheet(
                                 });
                               },
                       );
+                    // ignore: unnecessary_to_list_in_spreads
                     }).toList(),
                     const SizedBox(height: 16),
                   ],
@@ -115,6 +114,5 @@ Future<void> showTransactionFilterBottomSheet(
     },
   );
 
-  // Após o fechamento, atualiza o estado com os filtros selecionados
   bloc.add(UpdateTransactionFilterKeys(selected));
 }

@@ -4,9 +4,7 @@ enum PaymentsTab { payments, transactions }
 
 enum PaymentsStatus { initial, loading, loaded, error }
 
-// payments_event.dart
 
-// Open/Closed Principle: Base class for events that can be extended without modification
 abstract class PaymentsEvent extends Equatable {
   const PaymentsEvent();
 
@@ -14,7 +12,6 @@ abstract class PaymentsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-// Single Responsibility: Each event class handles one specific type of event
 class PaymentsTabChanged extends PaymentsEvent {
   final PaymentsTab tab;
 
@@ -25,7 +22,6 @@ class PaymentsTabChanged extends PaymentsEvent {
 }
 
 class LoadPaymentsEvent extends PaymentsEvent {
-  // No additional properties needed
 }
 
 class UpdateTransactionFilterKeys extends PaymentsEvent {

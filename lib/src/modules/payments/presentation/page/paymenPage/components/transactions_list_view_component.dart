@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/payments_bloc/payments_bloc.dart';
-import '../../../bloc/payments_bloc/payments_state.dart';
-import 'schedule_page.dart/transactions_list_component.dart';
+import '../../presentation.dart';
 
 
-class TransactionsListView extends StatelessWidget {
-  const TransactionsListView({super.key});
+class TransactionsListViewComponent extends StatelessWidget {
+  const TransactionsListViewComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class TransactionsListView extends StatelessWidget {
         return ListView.builder(
           itemCount: transactions.length,
           itemBuilder: (context, index) {
-            return TransactionDetailCard(transaction: transactions[index]);
+            return TransactionDetailCardComponent(transaction: transactions[index]);
           },
         );
       },

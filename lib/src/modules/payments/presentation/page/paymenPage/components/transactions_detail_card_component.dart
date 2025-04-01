@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
-import '../../../../../../../core/base/constants/enum.dart';
-import '../../../../../../../core/theme/app_style.dart';
-import '../../../../../domain/domain.dart';
-import '../../../../../domain/entity/detail_row_entity.dart';
-import '../../../../bloc/payments_bloc/payments_bloc.dart';
-import '../../../../bloc/payments_bloc/payments_state.dart';
+import '../../../../../../core/core.dart';
+import '../../../../domain/domain.dart';
+import '../../../../domain/entity/detail_row_entity.dart';
+import '../../presentation.dart';
 
-class TransactionDetailCard extends StatelessWidget {
+
+class TransactionDetailCardComponent extends StatelessWidget {
   final PaymentsTransactionsEntity transaction;
 
-  const TransactionDetailCard({Key? key, required this.transaction}) : super(key: key);
+  const TransactionDetailCardComponent({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentsBloc, PaymentsState>(
       builder: (context, state) {
-        // Use context.watch para que o widget seja reconstruído quando o state mudar.
         final rows = context.watch<PaymentsBloc>().getTransactionDetailRows(transaction);
 
         final children = rows.where((r) => !r.isEmpty).expand((row) => [

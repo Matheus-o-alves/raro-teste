@@ -7,7 +7,6 @@ class DetailRowBuilder {
 
   const DetailRowBuilder(this.activeFilters);
 
-  // Builds detail rows based on active filters
   List<DetailRowData> buildRows(PaymentsTransactionsEntity transaction) {
     List<DetailRowData> rows = [];
 
@@ -19,7 +18,6 @@ class DetailRowBuilder {
     return rows;
   }
 
-  // Private methods for each row type to improve readability and maintainability
   void _addProcessDateAndAmountRow(
       PaymentsTransactionsEntity transaction, List<DetailRowData> rows) {
     final showProcessDate = activeFilters.contains("processDate");
